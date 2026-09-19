@@ -41,9 +41,10 @@ Para resolver isso, foi desenvolvido o script em Python **`gerar_banco.py`**, re
 ---
 
 ## 🎨 Personalização
-- O mapa conta com **ícones visuais personalizados** representando as frotas e viações locais da cidade (como a Viação Jabour).
+- O mapa conta com **ícones visuais personalizados** representando as frotas e viações locais da cidade (como a Viação Jabour) ou ícones mais simples.
 
 ---
 
 ## 📌 Considerações
-- Eu não manjo muito de programação, só sei o arroz com feijão que vi no Youtube, então foi mal ae caso tenha feito algo errado. 
+- Eu não manjo muito de programação, só sei o arroz com feijão que vi no Youtube, então foi mal ae caso tenha feito algo errado.
+- Aliás, um dos principais problemas (eu acho) é o consumo de bateria e alguns bugs visuais que as vezes acontecem nos painéis.
