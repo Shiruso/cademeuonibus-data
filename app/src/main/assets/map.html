@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body, #map { width: 100%; height: 100%; background: #0f172a; }
+
+  @keyframes pulse {
+    0%   { transform: scale(1);   opacity: 1;   }
+    50%  { transform: scale(1.8); opacity: 0.4; }
+    100% { transform: scale(1);   opacity: 1;   }
+  }
+  .user-dot {
+    width: 24px; height: 24px;
+    background: #fbbf24;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .user-dot::before { content: '👤'; font-size: 14px; }
+  .user-dot::after {
+    content: '';
+    position: absolute;
+    top: -4px; left: -4px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(251,191,36,0.3);
+    animation: pulse 2s infinite;
+  }
+
+  .leaflet-interactive { transition: stroke-dashoffset 0.5s linear; }
+
+  .bus-sprite-container {
+    width: 64px; height: 64px;
+    background-image: url('bus_sprites.png');
+    background-size: 300% 300%;
+    background-repeat: no-repeat;
+    transition: background-position 0.1s steps(1);
+  }
+
+  .map-zooming .bus-sprite-container { transition: none !important; }
+
+  .leaflet-div-icon.bus-marker-icon {
+    background: transparent !important;
+    border: none !important;
+    transition: transform 0.5s linear;
+  }
+  .bus-simple-icon {
+    width: 34px;
+    height: 34px;
+    border: 2px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+  }
+  .leaflet-marker-icon { transition: left 2s linear, top 2s linear; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+"use strict";
+
+var map = L.map("map", {
+  zoomControl: false,
+  tap: false,
+  markerZoomAnimation: true,
+  preferCanvas: true
+}).setView([-22.9068, -43.1729], 12);
+
+map.on("click", function() { notificarAndroid("MAP_CLICK", {}); });
+map.on("dragstart", function() { notificarAndroid("MAP_INTERACT", {}); });
+
+map.on('zoomend', function() {
+    var z = map.getZoom();
+    if (z < 14 || window._showStopsEnabled === false) {
+        if (map.hasLayer(window._layerParadas)) map.removeLayer(window._layerParadas);
+    } else {
+        if (!map.hasLayer(window._layerParadas)) map.addLayer(window._layerParadas);
+    }
+});
+
+map.on('zoomstart', function() { document.getElementById('map').classList.add('map-zooming'); });
+map.on('zoomend',   function() { document.getElementById('map').classList.remove('map-zooming'); });
+
+var camadaOsm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap", detectRetina: true });
+var camadaSat = L.tileLayer("https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}", { maxZoom: 20, subdomains: ['mt0', 'mt1', 'mt2', 'mt3'], attribution: "Google Maps", detectRetina: true });
+camadaOsm.addTo(map);
+
+var routesPane = map.createPane("routesPane");
+routesPane.style.zIndex = 400;
+var stopsPane = map.createPane("stopsPane");
+stopsPane.style.zIndex = 450;
+
+window._capas = { "Padrão": camadaOsm, "Satélite": camadaSat };
+window._layerRotas  = L.layerGroup().addTo(map);
+window._layerParadas = L.layerGroup();
+window._veiculos    = {};
+window._dadosVeiculo= {};
+window._idsPorLinha = {};
+window._userMarker  = null;
+window._userLat     = null;
+window._userLng     = null;
+window._selecionado = null;
+window._useSimpleIcon = true; // Ícone simples (bolinha) ativado por padrão
+window._linhaFocada = null;
+
+function notificarAndroid(evento, dados) {
+  try {
+    if (typeof AndroidBridge !== "undefined") {
+      switch (evento) {
+        case "BUS_CLICK":
+          window._selecionado = dados.ordem;
+          destacarOnibus(dados.ordem);
+          AndroidBridge.onBusClick(dados.ordem, dados.lat, dados.lng, dados.vel, dados.progresso, dados.dist, dados.headsign, dados.delayTxt);
+          break;
+        case "BUS_UPDATE":
+          AndroidBridge.onBusUpdate(dados.ordem, dados.lat, dados.lng, dados.vel, dados.progresso, dados.dist, dados.headsign, dados.delayTxt);
+          break;
+        case "MAP_CLICK":
+          window._selecionado = null;
+          destacarOnibus(null);
+          AndroidBridge.onMapClick();
+          break;
+        case "MAP_INTERACT":
+          AndroidBridge.onMapInteract();
+          break;
+        case "GEO_UPDATE": AndroidBridge.onGeoUpdate(dados.lat, dados.lng);    break;
+        case "GEO_ERROR":  AndroidBridge.onGeoError(dados.msg);               break;
+        case "MAP_READY":  AndroidBridge.onMapReady();                         break;
+      }
+    }
+  } catch(e) {}
+}
+
+function destacarOnibus(id) {
+    for (var ordem in window._veiculos) {
+        var marker = window._veiculos[ordem];
+        if (id === null) {
+            marker.setOpacity(1.0);
+            marker.setZIndexOffset(0);
+        } else if (ordem === id) {
+            marker.setOpacity(1.0);
+            marker.setZIndexOffset(1000);
+        } else {
+            marker.setOpacity(0.3);
+            marker.setZIndexOffset(-100);
+        }
+    }
+}
+
+window.atualizarPosicaoUsuario = function(lat, lng) {
+  window._userLat = lat; window._userLng = lng;
+  if (window._userMarker) { window._userMarker.setLatLng([lat, lng]); }
+  else {
+    var iconHtml = window._customAvatar
+        ? `<div style="width:36px; height:36px; border:3px solid #fbbf24; border-radius:50%; background:white; overflow:hidden; box-shadow:0 0 10px rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center;">
+             <img src="${window._customAvatar}" style="width:36px; height:36px; min-width:36px; min-height:36px; object-fit:cover; border-radius:50%;">
+           </div>`
+        : '<div class="user-dot"></div>';
+    var icon = L.divIcon({ className: "", html: iconHtml, iconSize: [36, 36], iconAnchor: [18, 18] });
+    window._userMarker = L.marker([lat, lng], { icon: icon, zIndexOffset: 1000 }).addTo(map).bindPopup("<b>Você está aqui</b>");
+  }
+};
+
+window.centralizarMapa = function(lat, lng, zoom) { map.setView([lat, lng], zoom || 15); };
+window.setMapType = function(type) {
+    for (var key in window._capas) { if (map.hasLayer(window._capas[key])) map.removeLayer(window._capas[key]); }
+    if (window._capas[type]) window._capas[type].addTo(map);
+};
+window.toggleRoutes = function(show) { if (show) { if (!map.hasLayer(window._layerRotas)) map.addLayer(window._layerRotas); } else { if (map.hasLayer(window._layerRotas)) map.removeLayer(window._layerRotas); } };
+window.toggleStops = function(show) { window._showStopsEnabled = show; if (show) { if (map.getZoom() >= 14 && !map.hasLayer(window._layerParadas)) map.addLayer(window._layerParadas); } else { if (map.hasLayer(window._layerParadas)) map.removeLayer(window._layerParadas); } };
+window.setUserAvatar = function(base64) { window._customAvatar = base64; if (window._userMarker) { var latlng = window._userMarker.getLatLng(); map.removeLayer(window._userMarker); window._userMarker = null; atualizarPosicaoUsuario(latlng.lat, latlng.lng); } };
+
+function haversineKm(lat1, lng1, lat2, lng2) {
+  var R = 6371.0;
+  var dLat = (lat2 - lat1) * Math.PI / 180;
+  var dLng = (lng2 - lng1) * Math.PI / 180;
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng/2) * Math.sin(dLng/2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function getSpritePosition(bearing) {
+  if (bearing === null || bearing === undefined) return "50% 0%";
+  var b = (bearing % 360 + 360) % 360;
+  if (b >= 337.5 || b < 22.5)  return "50% 0%";
+  if (b >= 22.5  && b < 67.5)  return "100% 0%";
+  if (b >= 67.5  && b < 112.5) return "100% 50%";
+  if (b >= 112.5 && b < 157.5) return "100% 100%";
+  if (b >= 157.5 && b < 202.5) return "50% 100%";
+  if (b >= 202.5 && b < 247.5) return "0% 100%";
+  if (b >= 247.5 && b < 292.5) return "0% 50%";
+  if (b >= 292.5 && b < 337.5) return "0% 0%";
+  return "50% 0%";
+}
+
+window.limparSelecaoOnibus = function() {
+  window._selecionado = null;
+  destacarOnibus(null);
+};
+
+window.limparMapa = function() {
+  window.limparSelecaoOnibus();
+  window._layerRotas.clearLayers();
+  window._layerParadas.clearLayers();
+  // Não remove os veículos, apenas as trajetórias e paradas
+};
+
+window.fitBoundsToRoutes = function() {
+    var bounds = L.latLngBounds([]);
+    var temRota = false;
+    window._layerRotas.eachLayer(function(layer) {
+        if (layer instanceof L.Polyline) {
+            bounds.extend(layer.getBounds());
+            temRota = true;
+        }
+    });
+
+    // Incluir posição do usuário para contextualizar onde a rota está em relação a ele
+    if (window._userLat !== null && window._userLng !== null) {
+        bounds.extend([window._userLat, window._userLng]);
+    }
+
+    if (bounds.isValid() && temRota) {
+        map.fitBounds(bounds, { padding: [50, 50], animate: true });
+    }
+};
+
+window.desenharTrajetoria = function(pontos, cor, linha) {
+    if (!pontos || pontos.length === 0) return;
+    var rota = L.polyline(pontos, {
+        color: cor,
+        weight: 6,
+        opacity: (window._linhaFocada === null || window._linhaFocada === linha) ? 0.8 : 0.12,
+        pane: "routesPane"
+    });
+    rota._linha = linha;
+    window._layerRotas.addLayer(rota);
+};
+
+window.desenharParadas = function(paradas) {
+  window._layerParadas.clearLayers();
+  paradas.forEach(function(p) {
+    L.circleMarker([p.lat, p.lng], { radius: 4, color: p.cor, weight: 2, fillColor: 'white', fillOpacity: 1, pane: "stopsPane" }).addTo(window._layerParadas).bindPopup("<b>" + p.nome + "</b>");
+  });
+  if (map.getZoom() >= 14 && window._showStopsEnabled !== false) { window._layerParadas.addTo(map); }
+};
+
+window.atualizarOnibusDaLinha = function(linha, veiculos, ajustarZoom) {
+  if (!window._idsPorLinha[linha]) window._idsPorLinha[linha] = {};
+  var idsAtuais = {}; var pontosBounds = [];
+  veiculos.forEach(function(v) {
+    var id = v.ordem; idsAtuais[id] = true; window._dadosVeiculo[id] = v; pontosBounds.push([v.lat, v.lng]);
+    if (window._veiculos[id]) {
+        moverSuavemente(window._veiculos[id], [v.lat, v.lng], 4000);
+        var el = window._veiculos[id].getElement();
+        if (el) {
+            if (window._useSimpleIcon) {
+                var inner = el.querySelector('div');
+                if (inner) inner.style.background = v.cor;
+            } else {
+                var sprite = el.querySelector('.bus-sprite-container');
+                if (sprite) {
+                    sprite.style.backgroundPosition = getSpritePosition(v.bearing);
+                    sprite.style.filter = 'none';
+                }
+            }
+        }
+        if (window._selecionado !== null) {
+            var isSelected = (id === window._selecionado);
+            window._veiculos[id].setOpacity(isSelected ? 1.0 : 0.3);
+            if (isSelected) {
+                window._veiculos[id].setZIndexOffset(1000);
+                var dist = (window._userLat !== null) ? haversineKm(v.lat, v.lng, window._userLat, window._userLng) : -1;
+                notificarAndroid("BUS_UPDATE", { ordem: id, lat: v.lat, lng: v.lng, vel: v.vel, progresso: v.progresso, headsign: v.headsign, delayTxt: v.delayTxt, dist: dist });
+            } else {
+                window._veiculos[id].setZIndexOffset(-100);
+            }
+        } else {
+            window._veiculos[id].setOpacity(window._linhaFocada === null || linha === window._linhaFocada ? 1.0 : 0.12);
+            window._veiculos[id].setZIndexOffset(0);
+        }
+    } else {
+      var icon = criarIconeOnibus(v.bearing, v.cor);
+      var initialOpacity = (window._selecionado === null || id === window._selecionado) ? (window._linhaFocada === null || linha === window._linhaFocada ? 1.0 : 0.12) : 0.3;
+      var marker = L.marker([v.lat, v.lng], { icon: icon, opacity: 0 }).addTo(map);
+      var op = 0; var timer = setInterval(function() { if (op >= initialOpacity) { marker.setOpacity(initialOpacity); clearInterval(timer); } else { marker.setOpacity(op); op += 0.1; } }, 30);
+      marker._busOrdem = id;
+      marker.on("click", function() {
+        window._selecionado = this._busOrdem; destacarOnibus(this._busOrdem);
+        var vData = window._dadosVeiculo[this._busOrdem];
+        var dist = (window._userLat !== null) ? haversineKm(vData.lat, vData.lng, window._userLat, window._userLng) : -1;
+        notificarAndroid("BUS_CLICK", { ordem: this._busOrdem, lat: vData.lat, lng: vData.lng, vel: vData.vel, progresso: vData.progresso, headsign: vData.headsign, delayTxt: vData.delayTxt, dist: dist });
+      });
+      window._veiculos[id] = marker;
+    }
+  });
+  var antigos = window._idsPorLinha[linha];
+  for (var id in antigos) { if (!idsAtuais[id] && window._veiculos[id]) { map.removeLayer(window._veiculos[id]); delete window._veiculos[id]; delete window._dadosVeiculo[id]; } }
+  window._idsPorLinha[linha] = idsAtuais;
+  if (ajustarZoom && pontosBounds.length > 0) { if (window._userLat !== null) pontosBounds.push([window._userLat, window._userLng]); map.fitBounds(pontosBounds, { padding: [50, 50] }); }
+};
+
+window.removerLinha = function(linha) {
+  var ids = window._idsPorLinha[linha] || {};
+  for (var id in ids) { if (window._veiculos[id]) map.removeLayer(window._veiculos[id]); delete window._veiculos[id]; delete window._dadosVeiculo[id]; }
+  delete window._idsPorLinha[linha];
+  window._layerRotas.eachLayer(function(layer) { if (layer._linha === linha) window._layerRotas.removeLayer(layer); });
+};
+window.focarLinha = function(linha) {
+  window._linhaFocada = linha;
+  for (var id in window._veiculos) window._veiculos[id].setOpacity(id.indexOf(linha + ':') === 0 ? 1 : 0.12);
+  window._layerRotas.eachLayer(function(layer) { if (layer.setStyle) layer.setStyle({ opacity: layer._linha === linha ? 0.95 : 0.12 }); });
+};
+
+window.setIconStyle = function(useBusIcon) {
+    window._useSimpleIcon = !useBusIcon; // Se usar ícone de ônibus for true, useSimpleIcon vira false
+    for (var id in window._veiculos) {
+        var marker = window._veiculos[id];
+        var dados = window._dadosVeiculo[id];
+        if (dados) marker.setIcon(criarIconeOnibus(dados.bearing, dados.cor));
+    }
+};
+
+function criarIconeOnibus(bearing, cor) {
+    if (window._useSimpleIcon) {
+        var busSvg = `<svg viewBox="0 0 24 24" style="width:22px; height:22px; fill:white;">
+            <path d="M4,16c0,0.88,0.39,1.67,1,2.22V20c0,0.55,0.45,1,1,1h1c0.55,0,1-0.45,1-1v-1h8v1c0,0.55,0.45,1,1,1h1c0.55,0,1-0.45,1-1v-1.78 c0.61-0.55,1-1.34,1-2.22V6c0-3.5-3.58-4-8-4S4,2.5,4,6V16z M7.5,17c-0.83,0-1.5-0.67-1.5-1.5S6.67,14,7.5,14s1.5,0.67,1.5,1.5 S8.33,17,7.5,17z M16.5,17c-0.83,0-1.5-0.67-1.5-1.5s0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5S17.33,17,16.5,17z M18,11H6V7h12V11z"/>
+        </svg>`;
+        return L.divIcon({ className: "bus-marker-icon", html: `<div class="bus-simple-icon" style="background:${cor};">${busSvg}</div>`, iconSize: [34, 34], iconAnchor: [17, 17] });
+    } else {
+        return L.divIcon({ className: "bus-marker-icon", html: `<div class="bus-sprite-container" style="background-position: ${getSpritePosition(bearing)}"></div>`, iconSize: [64, 64], iconAnchor: [32, 32] });
+    }
+}
+
+function moverSuavemente(marker, novaPos, duracao) {
+    var start = null; var posAnt = marker.getLatLng();
+    var deltaLat = novaPos[0] - posAnt.lat; var deltaLng = novaPos[1] - posAnt.lng;
+    if (Math.abs(deltaLat) < 0.00001 && Math.abs(deltaLng) < 0.00001) return;
+    function step(timestamp) {
+        if (!start) start = timestamp;
+        var progress = (timestamp - start) / duracao;
+        if (progress > 1) progress = 1;
+        marker.setLatLng([posAnt.lat + (deltaLat * progress), posAnt.lng + (deltaLng * progress)]);
+        if (progress < 1) marker._animFrame = requestAnimationFrame(step);
+    }
+    if (marker._animFrame) cancelAnimationFrame(marker._animFrame);
+    marker._animFrame = requestAnimationFrame(step);
+}
+
+notificarAndroid("MAP_READY", {});
+</script>
+</body>
+</html>

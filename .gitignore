@@ -1,0 +1,30 @@
+# Build artifacts
+.gradle/
+build/
+app/build/
+*.iml
+
+# IDE settings
+.idea/
+*.ipr
+*.iws
+
+# Local configuration
+local.properties
+
+# Log files
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE tool artifacts (contém caminhos locais)
+.artifacts/
+
+# Ignorar o gtfs da raiz (o que o app gera/usa localmente)
+gtfs.zip
+gtfs_rio.db
+
+# A pasta /data/ deve ser enviada para o GitHub!
+!/data/

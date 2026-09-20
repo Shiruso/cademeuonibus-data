@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cadê meu Ônibus</string>
+    <string name="hint_linha">Digite o número da linha</string>
+    <string name="btn_buscar">Buscar</string>
+    <string name="status_inicial">Digite o número da linha para começar</string>
+    <string name="status_carregando">Carregando dados…</string>
+    <string name="status_buscando">Buscando ônibus…</string>
+    <string name="minha_localizacao">Centralizar mapa</string>
+    <string name="limpar_busca">Limpar busca</string>
+    <string name="historico">Histórico de buscas</string>
+    <string name="sem_onibus">Nenhum ônibus encontrado</string>
+    <string name="erro_conexao">Erro de conexão</string>
+</resources>

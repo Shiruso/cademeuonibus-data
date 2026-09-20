@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- Painel Principal de Configurações -->
+    <LinearLayout
+        android:id="@+id/llSettingsMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mapa"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchSatellite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vista Satélite"
+            android:textColor="@color/black"
+            android:layout_marginTop="8dp"
+            app:thumbTint="@color/switch_thumb_selector"
+            app:trackTint="@color/switch_track_selector" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="16dp"
+            android:background="#E2E8F0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estilo do Ícone"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchSimpleIcon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ícone Ônibus"
+            android:textColor="@color/black"
+            android:layout_marginTop="8dp"
+            app:thumbTint="@color/switch_thumb_selector"
+            app:trackTint="@color/switch_track_selector" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="16dp"
+            android:background="#E2E8F0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personalização"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnChangeAvatar"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trocar Avatar do Mapa"
+            android:textColor="@color/md_primary"
+            android:gravity="start|center_vertical"
+            android:paddingStart="0dp"
+            app:icon="@android:drawable/ic_menu_camera" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="16dp"
+            android:background="#E2E8F0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Visibilidade"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchShowRoutes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Exibir Rotas"
+            android:textColor="@color/black"
+            android:checked="true"
+            android:layout_marginTop="8dp"
+            app:thumbTint="@color/switch_thumb_selector"
+            app:trackTint="@color/switch_track_selector" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchShowStops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Exibir Paradas"
+            android:textColor="@color/black"
+            android:checked="true"
+            app:thumbTint="@color/switch_thumb_selector"
+            app:trackTint="@color/switch_track_selector" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchHideNoSignal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ocultar Ônibus sem Sinal"
+            android:textColor="@color/black"
+            android:layout_marginTop="8dp"
+            app:thumbTint="@color/switch_thumb_selector"
+            app:trackTint="@color/switch_track_selector" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnHowToUse"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Como usar"
+            android:textColor="#64748B"
+            android:gravity="center"
+            app:icon="@android:drawable/ic_menu_help"
+            app:iconGravity="textStart"
+            app:iconTint="#64748B" />
+
+    </LinearLayout>
+
+    <!-- Painel "Como Usar" (Submenu) -->
+    <LinearLayout
+        android:id="@+id/llHowToUse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btnBackFromHowToUse"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Voltar"
+            android:textColor="@color/md_primary"
+            app:icon="@android:drawable/ic_menu_revert"
+            android:paddingStart="0dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Como usar o App"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Buscar Linha: Use a barra no topo para pesquisar por uma linha de ônibus."
+                    android:textColor="#334155"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Favoritos: Clique em um ônibus no mapa e toque na estrela para salvar a linha."
+                    android:textColor="#334155"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Gerenciar: Abra o painel de favoritos (estrela amarela embaixo) para alternar sentidos ou remover linhas."
+                    android:textColor="#334155"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Detalhes: Toque em qualquer ônibus para ver velocidade, distância e tempo estimado."
+                    android:textColor="#334155"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Observações:"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• O app funciona exclusivamente para linhas municipais da cidade do Rio de Janeiro."
+                    android:textColor="#475569"
+                    android:textSize="13sp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• É necessária uma conexão estável com a internet para carregar as posições."
+                    android:textColor="#475569"
+                    android:textSize="13sp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Os dados possuem um atraso natural (latência) de rede. As posições no mapa são estimativas baseadas no último sinal enviado pelo ônibus."
+                    android:textColor="#475569"
+                    android:textSize="13sp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Recomendamos chegar ao ponto com antecedência para evitar perder o embarque."
+                    android:textColor="#475569"
+                    android:textSize="13sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing -->
+    <dimen name="spacing_xs">4dp</dimen>
+    <dimen name="spacing_sm">8dp</dimen>
+    <dimen name="spacing_md">16dp</dimen>
+    <dimen name="spacing_lg">24dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+    
+    <!-- Corner Radius -->
+    <dimen name="corner_radius_sm">8dp</dimen>
+    <dimen name="corner_radius_md">12dp</dimen>
+    <dimen name="corner_radius_lg">16dp</dimen>
+    <dimen name="corner_radius_xl">24dp</dimen>
+    
+    <!-- Elevation -->
+    <dimen name="elevation_card">4dp</dimen>
+    <dimen name="elevation_fab">6dp</dimen>
+    <dimen name="elevation_dialog">8dp</dimen>
+    
+    <!-- Button & Input Heights -->
+    <dimen name="input_height">56dp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="fab_mini_size">40dp</dimen>
+    
+    <!-- Text Sizes -->
+    <dimen name="text_size_xs">12sp</dimen>
+    <dimen name="text_size_sm">14sp</dimen>
+    <dimen name="text_size_md">16sp</dimen>
+    <dimen name="text_size_lg">18sp</dimen>
+    <dimen name="text_size_xl">20sp</dimen>
+    <dimen name="text_size_title">24sp</dimen>
+    
+    <!-- Icon Sizes -->
+    <dimen name="icon_size_sm">16dp</dimen>
+    <dimen name="icon_size_md">24dp</dimen>
+    <dimen name="icon_size_lg">32dp</dimen>
+</resources>

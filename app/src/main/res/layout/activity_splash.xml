@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <!-- ImageView de fundo (camada 1) -->
+    <ImageView
+        android:id="@+id/imgSplashBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="Splash Background" />
+
+    <!-- ImageView de frente (camada 2) - para crossfade -->
+    <ImageView
+        android:id="@+id/imgSplash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="Splash Screen" />
+
+    <TextView
+        android:id="@+id/tvUpdateStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="48dp"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:text="" />
+
+</FrameLayout>

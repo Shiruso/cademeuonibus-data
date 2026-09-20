@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material Design 3 - Paleta Moderna -->
+    
+    <!-- Primary Colors (Azul vibrante) -->
+    <color name="md_primary">#1E88E5</color>
+    <color name="md_primary_dark">#1565C0</color>
+    <color name="md_primary_light">#42A5F5</color>
+    <color name="md_on_primary">#FFFFFF</color>
+    
+    <!-- Secondary Colors (Verde moderno) -->
+    <color name="md_secondary">#26A69A</color>
+    <color name="md_secondary_dark">#00897B</color>
+    <color name="md_secondary_light">#4DB6AC</color>
+    <color name="md_on_secondary">#FFFFFF</color>
+    
+    <!-- Accent Colors -->
+    <color name="md_accent">#FF6F00</color>
+    <color name="md_accent_light">#FFA726</color>
+    
+    <!-- Background Colors (Slate/Grey - Menos "enjoativo") -->
+    <color name="bg_primary">#0F172A</color>
+    <color name="bg_card">#1E293B</color>
+    <color name="bg_elevated">#334155</color>
+    <color name="surface_light">#F8FAFC</color>
+    <color name="surface_light_border">#E2E8F0</color>
+    <color name="text_on_light">#0F172A</color>
+    <color name="text_muted_on_light">#64748B</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B3B3B3</color>
+    <color name="text_hint">#757575</color>
+    <color name="text_disabled">#616161</color>
+    
+    <!-- Status Colors -->
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF9800</color>
+    <color name="error">#F44336</color>
+    <color name="info">#2196F3</color>
+    
+    <!-- Bus Route Colors (mais vibrantes) -->
+    <color name="route_direction_0">#38BDF8</color>
+    <color name="route_direction_1">#FB923C</color>
+    <color name="stop_marker">#4CAF50</color>
+    
+    <!-- Dividers & Borders -->
+    <color name="divider">#424242</color>
+    <color name="border">#616161</color>
+    <color name="border_focus">#1E88E5</color>
+    
+    <!-- Shimmer Effect -->
+    <color name="shimmer_base">#2C2C2C</color>
+    <color name="shimmer_highlight">#383838</color>
+    
+    <!-- Overlay & Shadows -->
+    <color name="overlay_dark">#AA000000</color>
+    <color name="shadow">#40000000</color>
+    
+    <!-- Standard Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    
+    <!-- Legacy Support (manter compatibilidade) -->
+    <color name="bg_dark">@color/bg_primary</color>
+    <color name="bg_darker">@color/bg_primary</color>
+    <color name="bg_surface">@color/bg_card</color>
+    <color name="azul_ida">@color/route_direction_0</color>
+    <color name="laranja_volta">@color/route_direction_1</color>
+    <color name="verde_parada">@color/stop_marker</color>
+    <color name="verde_busca">@color/md_secondary</color>
+    <color name="text_amarelo">@color/warning</color>
+    <color name="text_azul_info">@color/info</color>
+    <color name="text_erro">@color/error</color>
+    <color name="borda_input">@color/border</color>
+    <color name="borda_input_focus">@color/border_focus</color>
+</resources>

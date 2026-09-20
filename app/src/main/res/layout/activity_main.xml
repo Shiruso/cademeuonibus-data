@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:openDrawer="end">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <FrameLayout
+            android:id="@+id/mapContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/searchBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="18dp"
+            android:layout_gravity="top"
+            android:background="@drawable/bg_floating_search"
+            android:elevation="12dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:id="@+id/ivSearchIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_search_icon"
+                android:padding="8dp"
+                android:src="@drawable/ic_search"
+                android:contentDescription="Busca"
+                app:tint="@color/md_primary"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <AutoCompleteTextView
+                android:id="@+id/editLinha"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:hint="Buscar linha"
+                android:textColorHint="@color/text_muted_on_light"
+                android:textColor="@color/text_on_light"
+                android:textSize="16sp"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:completionThreshold="1"
+                android:dropDownWidth="300dp"
+                android:dropDownAnchor="@id/searchBarLayout"
+                android:dropDownVerticalOffset="12dp"
+                android:popupBackground="@drawable/bg_floating_search"
+                android:paddingEnd="36dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivSearchIcon"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageButton
+                android:id="@+id/btnClear"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="4dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#94A3B8"
+                android:visibility="gone"
+                android:contentDescription="Limpar"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <View android:id="@+id/btnBuscar" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone" tools:ignore="MissingConstraints" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:layout_marginBottom="144dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnFavoritas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:fabSize="mini"
+                app:fabCustomSize="36dp"
+                android:src="@drawable/ic_star"
+                app:backgroundTint="#FBBF24"
+                app:tint="@color/white"
+                android:contentDescription="Linhas favoritas" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:fabSize="mini"
+                app:fabCustomSize="36dp"
+                android:src="@drawable/ic_settings"
+                app:backgroundTint="#E0F2FE"
+                app:tint="#0369A1"
+                android:contentDescription="Configurações" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnMinhaLocalizacao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                app:fabCustomSize="36dp"
+                android:src="@android:drawable/ic_menu_mylocation"
+                app:backgroundTint="@color/md_primary"
+                app:tint="@color/white"
+                android:contentDescription="Minha Localização" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="16dp"
+            android:layout_marginBottom="120dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:background="@drawable/bg_status_floating"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:elevation="4dp" />
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/loadingIndicator"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="8dp"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:indicatorSize="16dp"
+                app:indicatorColor="#38BDF8" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detailsBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_bottom_sheet_dark"
+            android:elevation="16dp"
+            android:padding="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+            <View
+                android:id="@+id/bsHandle"
+                android:layout_width="48dp"
+                android:layout_height="4dp"
+                android:background="#475569"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+            <FrameLayout
+                android:id="@+id/flBusIcon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_bus_icon_square"
+                android:backgroundTint="#003399"
+                app:layout_constraintTop_toBottomOf="@id/bsHandle"
+                app:layout_constraintStart_toStartOf="parent">
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_bus_modern"
+                    android:contentDescription="Ônibus" />
+            </FrameLayout>
+            <TextView
+                android:id="@+id/tvDetLinha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                tools:text="Linha 864"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/flBusIcon"
+                app:layout_constraintStart_toEndOf="@id/flBusIcon" />
+
+            <ImageButton
+                android:id="@+id/btnFavStar"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_star"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#475569"
+                android:contentDescription="Favoritar linha"
+                app:layout_constraintTop_toTopOf="@id/tvDetLinha"
+                app:layout_constraintBottom_toBottomOf="@id/tvDetLinha"
+                app:layout_constraintStart_toEndOf="@id/tvDetLinha" />
+            <TextView
+                android:id="@+id/tvDetSentido"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="Terminal Sulacap"
+                android:textColor="#94A3B8"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/tvDetLinha"
+                app:layout_constraintStart_toStartOf="@id/tvDetLinha"
+                app:layout_constraintEnd_toStartOf="@id/llEtaBox" />
+            <LinearLayout
+                android:id="@+id/llEtaBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_eta_pill"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="@id/flBusIcon"
+                app:layout_constraintBottom_toBottomOf="@id/flBusIcon"
+                app:layout_constraintEnd_toEndOf="parent">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@android:drawable/ic_menu_recent_history"
+                    app:tint="@color/white"
+                    android:contentDescription="Tempo" />
+                <TextView
+                    android:id="@+id/tvDetEta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    tools:text="6 min"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/llPills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/tvDetSentido">
+                <TextView
+                    android:id="@+id/tvPillDelay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_pill_green"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    tools:text="✔ No horário"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvPillVelocidade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_pill_yellow"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    tools:text="⚡ 0 km/h"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvDetDistancia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_pill_distance"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="6dp"
+                    tools:text="📍 1.4 km"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/detProgressBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:trackThickness="10dp"
+                app:trackCornerRadius="5dp"
+                app:trackColor="#1E293B"
+                app:indicatorColor="#0066FF"
+                android:progress="62"
+                app:layout_constraintTop_toBottomOf="@id/llPills"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvDetProgresso" />
+            <TextView
+                android:id="@+id/tvDetProgresso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                tools:text="62%"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/detProgressBar"
+                app:layout_constraintBottom_toBottomOf="@id/detProgressBar"
+                app:layout_constraintEnd_toEndOf="parent" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/detProgressBar">
+                <TextView
+                    android:id="@+id/tvDetIdPill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_pill_distance"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    tools:text="ID: D86347"
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/tvDetCountPill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_pill_distance"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    tools:text="12 Ônibus"
+                    android:textColor="#94A3B8"
+                    android:textSize="12sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navView"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@color/white"
+        app:headerLayout="@layout/nav_header">
+        <include layout="@layout/nav_menu_content" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="160dp" />
+    </com.google.android.material.navigation.NavigationView>
+
+    <LinearLayout
+        android:id="@+id/favoritesDrawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#0F172A"
+        android:elevation="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="#0F172A"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <ImageView
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_bus_icon_square"
+                android:padding="12dp"
+                android:src="@drawable/ic_star"
+                android:contentDescription="Favoritas" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Linhas favoritas"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Escolha o que aparece no mapa"
+                android:textColor="#94A3B8"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="* Máximo de 5 linhas favoritas"
+                android:textColor="#94A3B8"
+                android:textSize="12sp"
+                android:textStyle="italic" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="SUAS LINHAS"
+                android:textColor="@color/text_muted_on_light"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:id="@+id/favoritesLinesContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

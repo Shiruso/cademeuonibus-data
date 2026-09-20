@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base Theme: Material 3 Dark -->
+    <style name="Theme.CadeMeuOnibus" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Primary Colors -->
+        <item name="colorPrimary">@color/md_primary</item>
+        <item name="colorPrimaryVariant">@color/md_primary_dark</item>
+        <item name="colorOnPrimary">@color/md_on_primary</item>
+        
+        <!-- Secondary Colors -->
+        <item name="colorSecondary">@color/md_secondary</item>
+        <item name="colorSecondaryVariant">@color/md_secondary_dark</item>
+        <item name="colorOnSecondary">@color/md_on_secondary</item>
+
+        <!-- UI Control Colors -->
+        <item name="colorAccent">@color/bg_elevated</item>
+        <item name="colorControlActivated">@color/bg_elevated</item>
+        <item name="colorControlHighlight">@color/shimmer_highlight</item>
+
+        <!-- Background -->
+        <item name="android:colorBackground">@color/bg_primary</item>
+        <item name="colorSurface">@color/bg_surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        
+        <!-- System Bars -->
+        <item name="android:statusBarColor">@color/bg_primary</item>
+        <item name="android:navigationBarColor">@color/bg_primary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        
+        <!-- Window -->
+        <item name="android:windowBackground">@color/bg_primary</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+        
+        <!-- Text Appearance -->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.App.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.App.Headline2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.App.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.App.Body2</item>
+        
+        <!-- Shape -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.App.LargeComponent</item>
+    </style>
+
+    <!-- Text Appearances -->
+    <style name="TextAppearance.App.Headline1" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.App.Headline2" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">@dimen/text_size_lg</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="TextAppearance.App.Body1" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">@dimen/text_size_md</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="TextAppearance.App.Body2" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">@dimen/text_size_sm</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <!-- Shape Appearances -->
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/corner_radius_sm</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/corner_radius_md</item>
+    </style>
+
+    <style name="ShapeAppearance.App.LargeComponent" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/corner_radius_lg</item>
+    </style>
+
+    <!-- Custom Styles -->
+    
+    <!-- Search Bar Style -->
+    <style name="Widget.App.SearchBar" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/bg_card</item>
+        <item name="cardElevation">@dimen/elevation_card</item>
+        <item name="cardCornerRadius">@dimen/corner_radius_xl</item>
+        <item name="contentPadding">@dimen/spacing_sm</item>
+    </style>
+
+    <!-- FAB Style -->
+    <style name="Widget.App.FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="backgroundTint">@color/md_primary</item>
+        <item name="tint">@color/md_on_primary</item>
+        <item name="elevation">@dimen/elevation_fab</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Full</item>
+    </style>
+
+    <!-- Status Chip Style -->
+    <style name="Widget.App.StatusChip" parent="Widget.Material3.Chip.Assist">
+        <item name="chipBackgroundColor">@color/bg_elevated</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipCornerRadius">@dimen/corner_radius_lg</item>
+    </style>
+
+    <!-- Card Style -->
+    <style name="Widget.App.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/bg_card</item>
+        <item name="cardElevation">@dimen/elevation_card</item>
+        <item name="cardCornerRadius">@dimen/corner_radius_md</item>
+        <item name="contentPadding">@dimen/spacing_md</item>
+    </style>
+
+    <style name="Theme.CadeMeuOnibus.Splash" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:windowBackground">@color/bg_primary</item>
+        <item name="android:statusBarColor">@color/bg_primary</item>
+        <item name="android:navigationBarColor">@color/bg_primary</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
