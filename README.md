@@ -45,10 +45,6 @@ Para resolver isso, foi desenvolvido o script em Python **`gerar_banco.py`**, re
 
 ---
 
-## 📌 Considerações
-- Eu não manjo muito de programação, só sei o arroz com feijão que vi no Youtube, então foi mal ae caso tenha feito algo errado.
-- Aliás, um dos principais problemas (eu acho) é o consumo de bateria e alguns bugs visuais que as vezes acontecem nos painéis.
-
 ## 🛠️ Tecnologias Utilizadas
 
 - Kotlin
@@ -65,6 +61,12 @@ Para resolver isso, foi desenvolvido o script em Python **`gerar_banco.py`**, re
 2. Abra no Android Studio.
 3. Certifique-se de ter o arquivo `gtfs.zip` (se necessário) na pasta raiz ou siga as instruções de configuração.
 4. Compile e rode no seu dispositivo ou emulador.
+
+---
+
+## 📌 Considerações
+- Eu não manjo muito de programação, só sei o arroz com feijão que vi no Youtube, então foi mal ae caso tenha feito algo errado.
+- Aliás, um dos principais problemas (eu acho) é o consumo de bateria e alguns bugs visuais que as vezes acontecem nos painéis.
 
 ## 📄 Licença
 
