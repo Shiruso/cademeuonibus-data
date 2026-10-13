@@ -5,9 +5,9 @@ Aplicação para visualização e rastreamento em tempo real da frota de ônibus
 
 ---
 ## 📥 Como Baixar
-1º baixe o arquivo apk listado acima: Cadê meu Ônibus.apk
-2º na instalação permita a instalação de fontes desconhecidas (infelizmente é caro postar um app na play sotre :/ )
-3º Abra o app e pronto, tá baixado 👍
+1. **Baixe o apk**: Baixe o arquivo apk disponível acima `Cadê Meu Ônibus.apk` e execute ele;
+2. **Conceda as permissões**: Conceda a permissão de instalar de fontes desconhecidas para dar início a instalação (infelizmente é muito caro postar um app na Play Store);
+3. **Abra o app**: Ao terminar a instalação o app pedirá a permissão de usar a localização para conseguir localizar sua posição e calcular os tempos. 
 ---
 
 ## 🛠️ Como Funciona
