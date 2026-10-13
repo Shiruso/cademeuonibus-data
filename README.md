@@ -2,6 +2,12 @@
 
 Aplicação para visualização e rastreamento em tempo real da frota de ônibus e BRT da cidade do Rio de Janeiro, utilizando dados abertos da plataforma **DATA.RIO**.
 
+
+---
+## 📥 Como Baixar
+1º baixe o arquivo apk listado acima: Cadê meu Ônibus.apk
+2º na instalação permita a instalação de fontes desconhecidas (infelizmente é caro postar um app na play sotre :/ )
+3º Abra o app e pronto, tá baixado 👍
 ---
 
 ## 🛠️ Como Funciona
